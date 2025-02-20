@@ -69,3 +69,19 @@ exports.getBooksByGenre = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+exports.getAllGenres = async (req, res) => {
+    try {
+        const genres = await Book.findAll({
+            attributes: ['genre'],
+            group: ['genre'],
+            raw: true
+        });
+
+        const uniqueGenres = genres.map(g => g.genre);
+
+        res.status(200).json(uniqueGenres);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

@@ -7,11 +7,14 @@ const {
     getBookById,
     updateBook,
     deleteBook,
-    getBooksByGenre
+    getBooksByGenre,
+    getAllGenres
 } = require('../controllers/bookController');
 
 router.post('/', createBook);
 router.get('/', getBooksByGenre);
+router.get('/genre', getAllGenres);
+router.get('/list', getAllBooks);
 router.get('/:id', getBookById);
 router.put('/:id', updateBook);
 router.delete('/:id', deleteBook);
