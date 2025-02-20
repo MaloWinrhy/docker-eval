@@ -6,7 +6,7 @@ networks:
     internal: true
 
 services:
-   db:
+  db:
     image: mysql:8.0
     volumes:
       - db_data:/var/lib/mysql
@@ -23,6 +23,20 @@ services:
       timeout: 30s
       retries: 5
       start_period: 30s
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    volumes:
+      - ./api:/usr/src/app
+    ports:
+      - "3000:3000"
+    networks:
+      - backend_network
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   db_data:
