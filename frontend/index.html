@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+            /* 🌍 Reset et Global */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f2f2f2;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+
+        /* 📦 Container */
+        .container {
+            max-width: 800px;
+            width: 90%;
+            background: #f2f2f2;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff;
+            transition: 0.3s ease-in-out;
+        }
+
+        /* 🎨 Titre */
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 🔍 Section Filtre */
+        .filter-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f2f2f2;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff;
+            transition: 0.3s ease-in-out;
+            width: 100%;
+        }
+
+        .filter-container select, .filter-container button {
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background: #f2f2f2;
+            color: #333;
+            box-shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+        }
+
+        .filter-container button:hover {
+            box-shadow: inset 4px 4px 10px #d1d1d1, inset -4px -4px 10px #ffffff;
+        }
+
+        /* 📖 Grid des livres */
+        #book-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            width: 100%;
+            padding: 0;
+            list-style: none;
+        }
+
+        .book-card {
+            background: #f2f2f2;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff;
+            transition: 0.3s ease-in-out;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .book-card img {
+            max-width: 150px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-card:hover {
+            transform: scale(1.05);
+        }
+
+        /* 📝 Formulaire */
+        form {
+            background: #f2f2f2;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-weight: bold;
+        }
+
+        .input-group input {
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background: #f2f2f2;
+            color: #333;
+            box-shadow: inset 8px 8px 16px #d1d1d1, inset -8px -8px 16px #ffffff;
+            transition: 0.3s ease-in-out;
+        }
+
+        /* 🗑️ Bouton Delete */
+        .delete-button {
+            background: #e63946;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+        }
+
+        .delete-button:hover {
+            background: #c82333;
+        }
+
+        /* 🎛️ Mode Nuit */
+        .dark-mode {
+            background-color: #181818;
+            color: #fff;
+        }
+
+        .dark-mode .container,
+        .dark-mode .filter-container,
+        .dark-mode .book-card,
+        .dark-mode form {
+            background: #181818;
+            box-shadow: 8px 8px 16px #101010, -8px -8px 16px #202020;
+        }
+
+        .dark-mode .filter-container select,
+        .dark-mode .filter-container button,
+        .dark-mode .input-group input {
+            background: #181818;
+            color: #fff;
+            box-shadow: inset 8px 8px 16px #101010, inset -8px -8px 16px #202020;
+        }
+
+        /* 🎛️ Bouton Mode Nuit */
+        .toggle-theme {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            border-radius: 10px;
+            background: #f2f2f2;
+            color: #333;
+            box-shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+        }
+
+        .toggle-theme:hover {
+            box-shadow: inset 4px 4px 10px #d1d1d1, inset -4px -4px 10px #ffffff;
+        }
+
+        .dark-mode .toggle-theme {
+            background: #181818;
+            color: #fff;
+            box-shadow: 8px 8px 16px #101010, -8px -8px 16px #202020;
+        }
+
+        .dark-mode .toggle-theme:hover {
+            box-shadow: inset 8px 8px 16px #101010, inset -8px -8px 16px #202020;
+        }
+    </style>
+    <title>Book List</title>
+</head>
+<body>
+    <h1>Book List</h1>
+    <div>
+        <label for="genre">Filter by Genre:</label>
+        <select id="genre" name="genre">
+            <option value="">All Genres</option>
+        </select>
+        <button onclick="filterBooks()">Filter</button>
+    </div>
+    <ul id="book-list"></ul>
+
+    <h2>Add New Book</h2>
+    <form id="book-form">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" required>
+        <label for="bookGenre">Genre:</label>
+        <input type="text" id="bookGenre" name="genre" required>
+        <button type="submit">Add Book</button>
+    </form>
+
+    <script src="script.js"></script>
+    <script>
+        // Call fetchGenres when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchGenres();
+        });
+    </script>
+</body>
+</html>
