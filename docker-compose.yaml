@@ -4,6 +4,7 @@ version: '3'
 networks:
   backend_network:
     internal: true
+  frontend_network:
 
 services:
   db:
@@ -13,8 +14,8 @@ services:
       - ./db-init/init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: testdb
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     networks:
       - backend_network
     healthcheck:
@@ -34,9 +35,12 @@ services:
       - "3000:3000"
     networks:
       - backend_network
+      - frontend_network
     depends_on:
       db:
         condition: service_healthy
+    env_file:
+      - .env
 
 volumes:
   db_data:
